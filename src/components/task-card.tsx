@@ -2,6 +2,8 @@ import React from 'react';
 import { Clock, Paperclip, Tag } from 'lucide-react';
 import { Task } from '@/types';
 import { Draggable } from '@hello-pangea/dnd';
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 
 interface TaskCardProps {
     task: Task;
@@ -24,52 +26,58 @@ export default function TaskCard({ task, index, onClick }: TaskCardProps) {
                     {...provided.draggableProps}
                     {...provided.dragHandleProps}
                     onClick={onClick}
-                    className={`bg-card text-card-foreground rounded-lg shadow-sm p-4 mb-3 cursor-pointer ${
-                        snapshot.isDragging ? 'shadow-lg ring-2 ring-primary ring-opacity-50' : 'hover:shadow-md'
-                    } transition-all`}
                 >
-                    <h3 className="font-semibold mb-2">{task.title}</h3>
-
-                    {task.description && (
-                        <p className="text-sm text-muted-foreground mb-3 line-clamp-2">
-                            {task.description}
-                        </p>
-                    )}
-
-                    <div className="flex flex-wrap gap-2 mb-3">
-                        {task.tags.map((tag) => (
-                            <span
-                                key={tag.id}
-                                className="flex items-center gap-1 text-xs px-2 py-1 rounded-full"
-                                style={{ backgroundColor: tag.color + '20', color: tag.color }}
-                            >
-                <Tag size={12} />
-                                {tag.name}
-              </span>
-                        ))}
-                    </div>
-
-                    <div className="flex items-center justify-between text-sm">
-            <span className={`px-2 py-1 rounded-full text-xs ${priorityColors[task.priority]}`}>
-              {task.priority}
-            </span>
-
-                        <div className="flex items-center gap-3 text-muted-foreground">
-                            {task.dueDate && (
-                                <div className="flex items-center gap-1">
-                                    <Clock size={14} />
-                                    <span className="text-xs">{new Date(task.dueDate).toLocaleDateString()}</span>
-                                </div>
+                    <Card
+                        className={`mb-3 cursor-pointer ${
+                            snapshot.isDragging ? 'shadow-lg ring-2 ring-primary ring-opacity-50' : 'hover:shadow-md'
+                        } transition-all`}
+                    >
+                        <CardHeader className="p-3 pb-0">
+                            <CardTitle className="text-sm font-medium">{task.title}</CardTitle>
+                        </CardHeader>
+                        <CardContent className="p-3 pt-2">
+                            {task.description && (
+                                <p className="text-sm text-muted-foreground mb-3 line-clamp-2">
+                                    {task.description}
+                                </p>
                             )}
 
-                            {task.attachments.length > 0 && (
-                                <div className="flex items-center gap-1">
-                                    <Paperclip size={14} />
-                                    <span className="text-xs">{task.attachments.length}</span>
+                            <div className="flex flex-wrap gap-2 mb-3">
+                                {task.tags.map((tag) => (
+                                    <Badge
+                                        key={tag.id}
+                                        variant="outline"
+                                        style={{ backgroundColor: tag.color + '20', color: tag.color, borderColor: tag.color }}
+                                    >
+                                        <Tag className="h-3 w-3 mr-1" />
+                                        {tag.name}
+                                    </Badge>
+                                ))}
+                            </div>
+
+                            <div className="flex items-center justify-between text-sm">
+                                <Badge variant="secondary" className={priorityColors[task.priority]}>
+                                    {task.priority}
+                                </Badge>
+
+                                <div className="flex items-center gap-3 text-muted-foreground">
+                                    {task.dueDate && (
+                                        <div className="flex items-center gap-1">
+                                            <Clock className="h-3 w-3" />
+                                            <span className="text-xs">{new Date(task.dueDate).toLocaleDateString()}</span>
+                                        </div>
+                                    )}
+
+                                    {task.attachments.length > 0 && (
+                                        <div className="flex items-center gap-1">
+                                            <Paperclip className="h-3 w-3" />
+                                            <span className="text-xs">{task.attachments.length}</span>
+                                        </div>
+                                    )}
                                 </div>
-                            )}
-                        </div>
-                    </div>
+                            </div>
+                        </CardContent>
+                    </Card>
                 </div>
             )}
         </Draggable>

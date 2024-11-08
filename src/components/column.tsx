@@ -3,7 +3,8 @@ import { MoreHorizontal, Plus } from 'lucide-react';
 import { Column as ColumnType } from '@/types';
 import { Droppable } from '@hello-pangea/dnd';
 import TaskCard from "@/components/task-card";
-import {Button} from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 
 interface ColumnProps {
     column: ColumnType;
@@ -11,35 +12,38 @@ interface ColumnProps {
 
 export default function Column({ column }: ColumnProps) {
     return (
-        <div className="bg-gray-100 rounded-lg p-4 w-80 flex-shrink-0">
-            <div className="flex items-center justify-between mb-4">
-                <h2 className="font-semibold text-gray-700">{column.title}</h2>
+        <Card className="w-80 flex-shrink-0">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">{column.title}</CardTitle>
                 <div className="flex items-center gap-2">
-                    <Button className="p-1 hover:bg-gray-200 rounded">
-                        <Plus size={20} className="text-gray-600" />
+                    <Button variant="ghost" size="icon">
+                        <Plus className="h-4 w-4" />
+                        <span className="sr-only">Add task</span>
                     </Button>
-                    <Button className="p-1 hover:bg-gray-200 rounded">
-                        <MoreHorizontal size={20} className="text-gray-600" />
+                    <Button variant="ghost" size="icon">
+                        <MoreHorizontal className="h-4 w-4" />
+                        <span className="sr-only">More options</span>
                     </Button>
                 </div>
-            </div>
-
-            <Droppable droppableId={column.id}>
-                {(provided, snapshot) => (
-                    <div
-                        ref={provided.innerRef}
-                        {...provided.droppableProps}
-                        className={`min-h-[200px] transition-colors ${
-                            snapshot.isDraggingOver ? 'bg-gray-200' : ''
-                        }`}
-                    >
-                        {column.tasks.map((task, index) => (
-                            <TaskCard key={task.id} task={task} index={index} />
-                        ))}
-                        {provided.placeholder}
-                    </div>
-                )}
-            </Droppable>
-        </div>
+            </CardHeader>
+            <CardContent className="p-0">
+                <Droppable droppableId={column.id}>
+                    {(provided, snapshot) => (
+                        <div
+                            ref={provided.innerRef}
+                            {...provided.droppableProps}
+                            className={`min-h-[200px] p-2 transition-colors ${
+                                snapshot.isDraggingOver ? 'bg-muted' : ''
+                            }`}
+                        >
+                            {column.tasks.map((task, index) => (
+                                <TaskCard key={task.id} task={task} index={index} />
+                            ))}
+                            {provided.placeholder}
+                        </div>
+                    )}
+                </Droppable>
+            </CardContent>
+        </Card>
     );
 }

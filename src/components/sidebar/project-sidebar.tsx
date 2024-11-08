@@ -1,7 +1,8 @@
 import React from 'react';
 import { ChevronDown, Layout, Plus, Search } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { Button } from '../ui/button';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import { Project } from '@/types';
 
 interface ProjectSidebarProps {
@@ -32,27 +33,28 @@ export function ProjectSidebar({
 
                 <div className="relative">
                     <Search className="absolute left-2 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                    <input
+                    <Input
                         type="text"
                         placeholder="Search projects..."
-                        className="w-full pl-8 pr-3 py-1.5 text-sm bg-background border rounded-md"
+                        className="pl-8"
                     />
                 </div>
             </div>
 
             <div className="flex-1 overflow-y-auto py-2">
                 {projects.map((project) => (
-                    <button
+                    <Button
                         key={project.id}
-                        onClick={() => onProjectSelect(project.id)}
+                        variant="ghost"
                         className={cn(
-                            "w-full px-4 py-2 text-sm text-left flex items-center justify-between hover:bg-accent/50",
+                            "w-full justify-between px-4 py-2 text-sm",
                             project.id === selectedProjectId && "bg-accent"
                         )}
+                        onClick={() => onProjectSelect(project.id)}
                     >
                         <span className="truncate">{project.name}</span>
                         <ChevronDown className="h-4 w-4 text-muted-foreground" />
-                    </button>
+                    </Button>
                 ))}
             </div>
         </div>
