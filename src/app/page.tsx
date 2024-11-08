@@ -100,6 +100,7 @@ export default function Home() {
     if (!destination) return;
 
     if (destination.droppableId === 'delete-zone') {
+      // @ts-ignore
       setItemToDelete({ type, id: draggableId });
       setIsDeleteDialogOpen(true);
       return;

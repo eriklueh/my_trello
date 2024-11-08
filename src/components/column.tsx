@@ -37,7 +37,7 @@ export default function Column({ column }: ColumnProps) {
                             }`}
                         >
                             {column.tasks.map((task, index) => (
-                                <TaskCard key={task.id} task={task} index={index} />
+                                <TaskCard key={task.id} task={task} index={index}  onClick={() => console.log("hello")}/>
                             ))}
                             {provided.placeholder}
                         </div>
